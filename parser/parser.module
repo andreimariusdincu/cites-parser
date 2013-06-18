@@ -1,0 +1,46 @@
+<?php
+/**
+ * @file
+ * A module that parses all <html> data
+ */
+
+function parser_menu(){
+  $items['parser-module'] = array(
+    'title' => 'Parser module',
+    'description' => 'Parses data files',
+    'page callback' => 'parser_page',
+    'access arguments' => array('access content') 
+    );
+  return $items;
+}
+
+
+function parser_page(){
+  $extensionsArray = array(
+    "pdf",
+    "gif",
+    "jpeg",
+    "jpg",
+    "doc",
+    "docx",
+  );
+  
+  $path = "/home/andrei/Desktop/cites_arhiva";
+  $result = iterateDirectory($path,$extensionsArray);
+  return $result; 
+}
+
+
+function iterateDirectory($path,$extensionsArray){
+  $result = '';
+  $it = new RecursiveDirectoryIterator($path);
+  $destination = drupal_get_path('module', 'parser') . '../../default/files/';
+  foreach(new RecursiveIteratorIterator($it) as $file) {
+    if ($file->isFile() && in_array($file->getExtension(),$extensionsArray))  
+       $result .= ($file->getFilename() . "<br />");
+  }
+  return $result;
+}
+
+
+

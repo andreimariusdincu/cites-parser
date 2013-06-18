@@ -1,0 +1,5 @@
+name = Parser 
+description = parser module for data
+core = 7.x
+files[] = parser.module 
+ 
